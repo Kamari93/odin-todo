@@ -1,5 +1,6 @@
 import { toDate, isToday, isThisWeek, subDays } from 'date-fns'
 
+// THE PROJECT CLASS CREATES A PROJECT-FOLDER & ADDS, DELETES, ETC. ASSOCIATED PROJECT TASKS
 // FOR THE PROJECT PANEL CREATES PROJECT AND LIST OF TASKS (RIGHT MAIN)
 export default class Project {
     constructor(name) {
