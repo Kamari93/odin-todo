@@ -8,6 +8,7 @@ export default class UI {
     // LOADING CONTENT
     static loadHomePage() {
         UI.initProjectButtons();
+        // UI.initAddProjectButtons();
     }
 
     // Load Projects to Nav and Activate Add New Projects
