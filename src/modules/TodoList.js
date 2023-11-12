@@ -1,6 +1,6 @@
 import { compareAsc, toDate } from 'date-fns'
 import Project from './Project'
-import Task from './Task'
+import Task from './Tasks'
 
 // Create the individual Projects content
 export default class TodoList {
@@ -9,7 +9,8 @@ export default class TodoList {
         this.projects = []
         this.projects.push(new Project('Inbox'))
         this.projects.push(new Project('Today'))
-        this.projects.push(new Project('This week'))
+        this.projects.push(new Project('This Week'))
+        this.projects.push(new Project('Brag List'))
     }
 
     // set the value of projects Arr...this arg will be set in Storage.js
@@ -53,7 +54,7 @@ export default class TodoList {
         // loop through Projects arr to get the curr tasks of each proj folder to update curr days tasks
         this.projects.forEach((project) => {
             // skip the Today/Week proj folders tasks as these will be the folders the curr updated tasks wil be added to
-            if (project.getName() === 'Today' || project.getName() === 'This week')
+            if (project.getName() === 'Today' || project.getName() === 'This Week')
                 return
 
             // else use the getTasksToday method from Project.js to gather all curr day tasks and add them and their parent project to the Today project arr 
@@ -67,22 +68,22 @@ export default class TodoList {
 
 
     updateWeekProject() {
-        this.getProject('This week').tasks = []
+        this.getProject('This Week').tasks = []
 
         this.projects.forEach((project) => {
-            if (project.getName() === 'Today' || project.getName() === 'This week')
+            if (project.getName() === 'Today' || project.getName() === 'This Week')
                 return
 
             const weekTasks = project.getTasksThisWeek()
             weekTasks.forEach((task) => {
                 const taskName = `${task.getName()} (${project.getName()})`
-                this.getProject('This week').addTask(new Task(taskName, task.getDate()))
+                this.getProject('This Week').addTask(new Task(taskName, task.getDate()))
             })
         })
 
         // the This Week project tasks are sorted in ascneding order based on dates using sort and compareAsci comparator fn from date-fns 
-        this.getProject('This week').setTasks(
-            this.getProject('This week')
+        this.getProject('This Week').setTasks(
+            this.getProject('This Week')
                 .getTasks()
                 .sort((taskA, taskB) =>
                     compareAsc(
