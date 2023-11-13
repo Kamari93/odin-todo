@@ -528,20 +528,33 @@ export default class UI {
         const taskButton = this.parentNode.parentNode
         const projectName = document.getElementById('project-name').textContent
         const taskName = taskButton.children[0].children[1].textContent
-        const newDueDate = format(new Date(this.value), 'dd/MM/yyyy')
+        // const newDueDate = format(new Date(this.value), 'dd/MM/yyyy')
+        // const newDueDate = format(new Date(this.value), `MM/dd/yyyy`)
+
+        // Retrieve the selected date from the input element
+        const selectedDate = new Date(this.value);
+
+        // Increment the date by one day
+        const newDueDate = new Date(selectedDate);
+        newDueDate.setDate(selectedDate.getDate() + 1);
+
+        // Format the date to 'MM/dd/yyyy'
+        const formattedDate = format(newDueDate, 'MM/dd/yyyy');
+        // newDueDate = formattedDate;
+
 
         if (projectName === 'Today' || projectName === 'This Week') {
             const mainProjectName = taskName.split('(')[1].split(')')[0]
             const mainTaskName = taskName.split(' (')[0]
-            Storage.setTaskDate(projectName, taskName, newDueDate)
-            Storage.setTaskDate(mainProjectName, mainTaskName, newDueDate)
+            Storage.setTaskDate(projectName, taskName, formattedDate)
+            Storage.setTaskDate(mainProjectName, mainTaskName, formattedDate)
             if (projectName === 'Today') {
                 Storage.updateTodayProject()
             } else {
                 Storage.updateWeekProject()
             }
         } else {
-            Storage.setTaskDate(projectName, taskName, newDueDate)
+            Storage.setTaskDate(projectName, taskName, formattedDate)
         }
         UI.clearTasks()
         UI.loadTasks(projectName)
